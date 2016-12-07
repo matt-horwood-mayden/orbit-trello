@@ -1,8 +1,12 @@
-A free tool that provides an extra 'Add card' button on Gmail UI to add current reading email to a Trello card
+A free tool that provides an extra 'Add card' button on orbit UI to add current task to a Trello card
 
 ---
 
 CHANGE LOG:
+
+Version 0.0.1
+---------------
+- remove GMail setup code, adding orbit code
 
 Version 2.1.5
 ---------------

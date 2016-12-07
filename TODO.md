@@ -9,3 +9,4 @@
 - Add email body to comments
 - Include "From <email> to Description"
 - Fix bug: Stop detecting & parsing after user changed form's data
+- Fix multi task imports
