@@ -49,12 +49,6 @@ OrbitToTrello.OrbitView.prototype.detectToolbar = function () {
 
     this.$toolBar = $toolBar;
     this.$toolBarHolder = $toolBarHolder;
-
-
-    //log ($toolBarHolder);
-    //log($toolBarHolder.find(this.selectors.toolbarButton));
-    //log ($toolBar);  
-    //return {toolBarHolder:$toolBarHolder, toolBar:$toolBar};
 };
 
 OrbitToTrello.OrbitView.prototype.detectSplitLayoutMode = function () {

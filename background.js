@@ -32,7 +32,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
  * @return bool     Return True if you're on Orbit
  */
 function checkForValidUrl(tab) {
-    if (tab.url.indexOf('https://beta-crm.mayden.co.uk/tasks/') == 0) {
+    if ((tab.url.indexOf('https://beta-crm.mayden.co.uk/tasks/')) == 0 || (tab.url.indexOf('https://crm.mayden.co.uk/tasks/') == 0)) {
         chrome.pageAction.show(tab.id);
 
         log(tab.url);
