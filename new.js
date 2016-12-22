@@ -1,5 +1,6 @@
 const allTasks = new Set()
 const seperator = '----------------------'
+var cardData;
 
 const observer = new window.MutationObserver(mutations => {
     const tasks = document.querySelectorAll('.taskEntry')
@@ -67,18 +68,30 @@ const doStuff = function (task) {
     task.querySelector('.taskHeader div div').appendChild(addCardButton)
     document.body.appendChild(popup)
 
+    popup.querySelector('.orbit-trello-addCardButton').addEventListener('click', event => {
+        submit(cardData, popup);
+    })
+
+    const closeButton = popup.querySelector('.orbit-trello-close-button')
+    closeButton.addEventListener('click', function (event) {
+        popup.style.display = 'none'
+    })
+
+    const boardSelect = popup.querySelector('.orbit-trello-boards')
+    const listsList = popup.querySelector('.orbit-trello-lists')
+    boardSelect.addEventListener('change', function (event) {
+        const boardId = event.target.value
+        updateList(listsList, boardId, popup)
+    })
+
     addCardButton.addEventListener('click', function (event) {
+        cardData = null
         if (popup.style.display === 'block') {
             popup.style.display = 'none'
             return
         }
 
         popup.style.display = 'block'
-
-        const closeButton = popup.querySelector('.orbit-trello-close-button')
-        closeButton.addEventListener('click', function (event) {
-            popup.style.display = 'none'
-        })
 
         const taskId = task.querySelector('[name="taskId"]').value
 
@@ -100,47 +113,33 @@ const doStuff = function (task) {
         const descriptionInput = popup.querySelector('.orbit-trello-description')
         descriptionInput.textContent = description
 
-        const boardSelect = popup.querySelector('.orbit-trello-boards')
         boardSelect.innerHTML = '';
 
         trello.boards.forEach(board => {
-
             const option = document.createElement('option')
             option.value = board.id
             option.textContent = board.name
+            option.selected = board.id === localStorage.getItem('boardId')
 
             boardSelect.appendChild(option)
         })
 
-        const listsList = popup.querySelector('.orbit-trello-lists')
-        var cardData;
-        boardSelect.addEventListener('change', function (event) {
-            const boardId = event.target.value
-            Trello.get('boards/' + boardId, {lists: "open", list_fields: "name"}, function (data) {
-                listsList.innerHTML = ''
 
-                data.lists.forEach(list => {
-                    const li = document.createElement('li')
-                    li.dataset.id = list.id
-                    li.textContent = list.name
+        if (localStorage.getItem('useBacklink') !== 'false') {
+            popup.querySelector('.orbit-trello-chkBackLink').checked = true
+        } else {
+            popup.querySelector('.orbit-trello-chkBackLink').checked = false
+        }
 
-                    li.addEventListener('click', function (event) {
-                        listsList.querySelectorAll('.active').forEach(li => li.classList.remove('active'))
-                        event.target.classList.add('active')
-                        cardData = validateData(popup);
-                    })
+        if (localStorage.getItem('selfAssign') === 'true') {
+            popup.querySelector('.orbit-trello-chkSelfAssign').checked = true
+        } else {
+            popup.querySelector('.orbit-trello-chkSelfAssign').checked = false
+        }
 
-                    listsList.appendChild(li)
-                })
-            })
-        })
-        popup.querySelector('.orbit-trello-addCardButton').addEventListener('click', event => {
-            submit(cardData, popup);
-        })
-        
+        updateList(listsList, boardSelect.value, popup)
     }, true)
 }
-
 
 const trello = {
     apiKey: '12cf243effef7347ef8c4f82f0fcc97b'
@@ -219,30 +218,20 @@ submit = function(newCard, popup) {
 
     }
 
-    //save settings
-    chrome.extension.sendMessage({storage: 'userSettings', value: JSON.stringify({
-            orgId: data.orgId,
-            boardId: data.boardId,
-            listId: data.listId,
-            useBacklink: data.useBacklink,
-            selfAssign: data.selfAssign
-        })});
+    localStorage.setItem('boardId', data.boardId)
+    localStorage.setItem('listId', data.listId)
+    localStorage.setItem('useBacklink', data.useBacklink)
+    localStorage.setItem('selfAssign', data.selfAssign)
 
     var idMembers = null;
     if (data.selfAssign) {
-        idMembers = this.trello.user.id;  
+        idMembers = trello.user.id;
     }
     //
     //submit data
     Trello.post('cards', {name: data.title, desc: data.description, idList: data.listId, idMembers:idMembers}, function(data) {
-        Trello.post('checklists', {name: data.title, desc: data.description, idList: data.listId, idMembers:idMembers}, function(data) {
-        });
-        //self.event.fire('onSubmitComplete', {data:data});
-        log(data);
-        //setTimeout(function() {self.popupNode.hide();}, 10000);
         popup.style.display = 'none';
-    }
-    );
+    });
 
 //    log(data);
 };
@@ -281,3 +270,28 @@ validateData = function(popup) {
 
     return newCard;
 };
+
+const updateList = function (listsList, boardId, popup) {
+    Trello.get('boards/' + boardId, {lists: "open", list_fields: "name"}, function (data) {
+        listsList.innerHTML = ''
+
+        data.lists.forEach(list => {
+            const li = document.createElement('li')
+            li.dataset.id = list.id
+            li.textContent = list.name
+
+            li.addEventListener('click', function (event) {
+                listsList.querySelectorAll('.active').forEach(li => li.classList.remove('active'))
+                event.target.classList.add('active')
+                cardData = validateData(popup);
+            })
+
+            listsList.appendChild(li)
+
+            if (list.id === localStorage.getItem('listId')) {
+                li.className = 'active'
+                cardData = validateData(popup);
+            }
+        })
+    })
+}
