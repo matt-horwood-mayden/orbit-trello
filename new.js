@@ -36,7 +36,7 @@ const doStuff = function (task) {
     </div> \
         <span class="item">|</span> \
         <a class="item" href="https://trello.com/b/CGU9BYgd/Orbit-to-trello-development" target="_blank"><img src="' + chrome.extension.getURL('images/new_icon.gif') + '" /> Features/Bugs</a> \
-      <a class="item" href="javascript:void(0)" id="close-button">[x] Close</a>   \
+      <a class="item orbit-trello-close-button" href="javascript:void(0)">[x] Close</a>   \
   </div> \
         <div class="content menuInnerContainer"> \
             <dl> \
@@ -68,7 +68,17 @@ const doStuff = function (task) {
   task.querySelector('.taskHeader div div').appendChild(popup)
 
   addCardButton.addEventListener('click', function (event) {
+    if (popup.style.display === 'block') {
+      popup.style.display = 'none'
+      return
+    }
+
     popup.style.display = 'block'
+
+    const closeButton = popup.querySelector('.orbit-trello-close-button')
+    closeButton.addEventListener('click', function (event) {
+      popup.style.display = 'none'
+    })
 
     const taskId = task.querySelector('[name="taskId"]').value
 
