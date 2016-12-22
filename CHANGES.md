@@ -4,6 +4,11 @@ A free tool that provides an extra 'Add card' button on orbit UI to add current 
 
 CHANGE LOG:
 
+Version 0.1.1
+---------------
+- rewrite main plugin code
+- minor css tidy up
+
 Version 0.0.1
 ---------------
 - remove GMail setup code, adding orbit code

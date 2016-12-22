@@ -30,28 +30,27 @@ const doStuff = function (task) {
     popup.style.display = 'none'
     popup.innerHTML = '\
 <div id="gttPopup" class="J-M jQjAxd open"> \
-    <div id="gttPopupSlider"></div> \
     <div class="inner"> \
-  <div class="hdr clearfix"> \
-    <div class="userinfo"> \
-    </div> \
-        <span class="item">|</span> \
-      <a class="item orbit-trello-close-button" href="javascript:void(0)">[x] Close</a>   \
-  </div> \
+        <div class="hdr clearfix"> \
+            <div class="userinfo"> \
+            </div> \
+            <span class="item">|</span> \
+            <a class="item orbit-trello-close-button" href="javascript:void(0)">[x] Close</a>   \
+        </div> \
         <div class="content menuInnerContainer"> \
             <dl> \
                 <dt>Board.:</dt> \
-                <dd><select class="orbit-trello-boards"></select></dd> \
+                    <dd><select class="orbit-trello-boards"></select></dd> \
                 <dt>List:</dt> \
-                <dd class="clearfix listrow">\
-                    <ul class="orbit-trello-lists"></ul>\
-                </dd> \
+                    <dd class="clearfix listrow">\
+                        <ul class="orbit-trello-lists"></ul>\
+                    </dd> \
                 <dt>Title:</dt> \
-                <dd><input type="text" class="orbit-trello-title" style="width: 100%" /></dd> \
+                    <dd><input type="text" class="orbit-trello-title" style="width: 100%" /></dd> \
                 <dt>Description:</dt> \
-                <dd><textarea class="orbit-trello-description" style="height: 180px; width: 100%"></textarea></dd> \
+                    <dd><textarea class="orbit-trello-description" style="height: 180px; width: 100%"></textarea></dd> \
                 <dt>Task ID:</dt> \
-                <dd><input type="text" class="orbit-trello-task-id" style="width: 100%" /></dd> \
+                    <dd><input type="text" class="orbit-trello-task-id" style="width: 100%" /></dd> \
                 <dd>\
                     <input type="checkbox" checked="checked" class="orbit-trello-chkBackLink" id="chkBackLink"/>\
                     <label for="chkBackLink">Link back to Orbit</label>\
@@ -190,7 +189,7 @@ Trello.authorize({
     }
 })
 
-submit = function(newCard, popup) {
+submit = function (newCard, popup) {
     var self = this;
     if (newCard === null) {
         return false;
@@ -199,7 +198,7 @@ submit = function(newCard, popup) {
 
     if (data.useBacklink) {
         //var email = this.userEmail.replace('@', '\\@');
-        var txtDirect = "["+data.taskID+"](" + document.location.origin + "/tasks/"+data.taskID+" \"Direct link to task\")";
+        var txtDirect = "[" + data.taskID + "](" + document.location.origin + "/tasks/" + data.taskID + " \"Direct link to task\")";
 
         var subject = encodeURIComponent(data.title);
 
@@ -218,13 +217,13 @@ submit = function(newCard, popup) {
     }
     //
     //submit data
-    Trello.post('cards', {name: data.title, desc: data.description, idList: data.listId, idMembers:idMembers}, function(data) {
+    Trello.post('cards', {name: data.title, desc: data.description, idList: data.listId, idMembers: idMembers}, function (data) {
         popup.style.display = 'none';
     });
 
 };
 
-validateData = function(popup) {
+validateData = function (popup) {
 
     var newCard = {};
     var orgId = 'all';
@@ -245,7 +244,7 @@ validateData = function(popup) {
             boardId: boardId,
             listId: listId,
             title: title,
-            taskID : taskID,
+            taskID: taskID,
             description: description,
             useBacklink: useBacklink,
             selfAssign: selfAssign,
