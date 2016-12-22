@@ -36,7 +36,6 @@ const doStuff = function (task) {
     <div class="userinfo"> \
     </div> \
         <span class="item">|</span> \
-        <a class="item" href="https://trello.com/b/CGU9BYgd/Orbit-to-trello-development" target="_blank"><img src="' + chrome.extension.getURL('images/new_icon.gif') + '" /> Features/Bugs</a> \
       <a class="item orbit-trello-close-button" href="javascript:void(0)">[x] Close</a>   \
   </div> \
         <div class="content menuInnerContainer"> \
@@ -162,9 +161,7 @@ Trello.authorize({
             // get user orgs
             trello.orgs = [{id: -1, displayName: 'My Boards'}];
             if (data.hasOwnProperty('idOrganizations') && data.idOrganizations.length > 0) {
-                log('Getting user orgs');
                 Trello.get('members/me/organizations', {fields: "displayName"}, function (data) {
-                    log(data);
                     for (var i = 0; i < data.length; i++) {
                         trello.orgs.push(data[i]);
                     }
@@ -174,7 +171,6 @@ Trello.authorize({
 
             // get boards list, including orgs
             if (data.hasOwnProperty('idBoards') && data.idBoards.length > 0) {
-                log('Getting user boards');
                 trello.boards = null;
                 Trello.get('members/me/boards', {fields: "closed,name,idOrganization"}, function (data) {
                     var validData = Array();
@@ -182,17 +178,10 @@ Trello.authorize({
                         if (data[i].idOrganization === null)
                             data[i].idOrganization = -1;
 
-                        // Only accept opening boards
-                        if (i == 0) {
-                            log(data[i]);
-                        }
                         if (data[i].closed != true) {
                             validData.push(data[i]);
                         }
                     }
-                    log('Boards data:');
-                    log(data);
-                    log(validData);
                     trello.boards = validData;
                 });
             }
@@ -204,7 +193,6 @@ Trello.authorize({
 submit = function(newCard, popup) {
     var self = this;
     if (newCard === null) {
-        log('Submit data is empty');
         return false;
     }
     var data = newCard;
@@ -234,7 +222,6 @@ submit = function(newCard, popup) {
         popup.style.display = 'none';
     });
 
-//    log(data);
 };
 
 validateData = function(popup) {
@@ -251,7 +238,6 @@ validateData = function(popup) {
     var timeStamp = jQuery('.gH .gK .g3:first', this.$visibleMail).attr('title');
 
     var validateStatus = (boardId && listId && title);
-    log('validateData: ' + boardId + ' - ' + listId);
 
     if (validateStatus) {
         newCard = {
