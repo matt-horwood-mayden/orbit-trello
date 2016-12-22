@@ -1,10 +1,7 @@
 {
-   "background": {
-      "scripts": [ "background.js" ]
-   },
    "content_scripts": [ {
       "css": [ "style.css" ],
-      "js": [ "lib/jquery.min.js", "lib/jquery-ui-1.10.3.custom.min.js", "lib/trello.min.js", "lib/date.js", "lib/google-analytics-bundle.js", "lib/eventTarget.js", "lib/menuControl.js", "lib/waitCounter.js", "views/OrbitView.js", "views/popupView.js", "model.js", "app.js", "content-script.js" ],
+      "js": [ "lib/jquery.min.js", "lib/jquery-ui-1.10.3.custom.min.js", "lib/trello.min.js", "lib/date.js", "lib/google-analytics-bundle.js", "lib/eventTarget.js", "lib/menuControl.js", "lib/waitCounter.js", "views/OrbitView.js", "views/popupView.js", "model.js", "app.js", "content-script.js", "new.js" ],
       "matches": [ "\u003Call_urls>" ]
    } ],
    "description": "A free tool for Orbit and Trello integration, allow creating new card from tasks and easily searching back",

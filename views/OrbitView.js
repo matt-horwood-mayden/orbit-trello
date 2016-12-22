@@ -34,9 +34,11 @@ OrbitToTrello.OrbitView.prototype.detectToolbar = function () {
     var $toolBar = null;
     var $toolBarHolder = null;
     $(this.selectors.toolBarHolder, this.$root).each(function () {
+      console.log(this)
         if (this.clientWidth > 0) {
             $toolBarHolder = $(this);
             //log(this);
+            this.querySelector('.tooltipTop').innerHTML += 'hello'
         }
     });
 
