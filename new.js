@@ -69,6 +69,7 @@ const doStuff = function (task) {
     document.body.appendChild(popup)
 
     popup.querySelector('.orbit-trello-addCardButton').addEventListener('click', event => {
+        cardData = validateData(popup)
         submit(cardData, popup);
     })
 
