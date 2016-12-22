@@ -205,20 +205,9 @@ OrbitToTrello.Model.prototype.submit = function() {
         //var email = this.userEmail.replace('@', '\\@');
         var txtDirect = "["+data.taskID+"](" + document.location.href + " \"Direct link to task\")";
 
-        //subject = subject.replace('"', '');
-        //subject = subject.replace(' ', '+');
-        // https://mail.google.com/mail/u/1/#advanced-search/subset=all&has=Bug&within=1d&date=nov+14?compose=14269f3a0707acb9
-        // <span id=":1v" class="g3" title="Mon, Nov 18, 2013 at 11:20 AM" alt="Mon, Nov 18, 2013 at 11:20 AM">11:20 AM (2 hours ago)</span>
-        // //*[@id=":1v"]
         var subject = encodeURIComponent(data.title);
 
         data.description += "\n\n---\nImported from Orbit: " + txtDirect;
-        //after:2013/11/17 before:2013/11/20
-        //#advanced-search/subset=all&has=bug&within=1d&date=Nov+18%2C+2013
-        //
-        //log(this.data.desc);
-        //https://mail.google.com/mail/u/1/#advanced-search/subset=all&has=%5BTiki.vn+Bug&within=1d&date=nov+18%2C+2013
-
 
     }
 
@@ -238,6 +227,8 @@ OrbitToTrello.Model.prototype.submit = function() {
     //
     //submit data
     Trello.post('cards', {name: data.title, desc: data.description, idList: data.listId, idMembers:idMembers}, function(data) {
+        Trello.post('checklists', {name: data.title, desc: data.description, idList: data.listId, idMembers:idMembers}, function(data) {
+        });
         self.event.fire('onSubmitComplete', {data:data});
         log(data);
         //setTimeout(function() {self.popupNode.hide();}, 10000);
