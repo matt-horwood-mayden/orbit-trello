@@ -12,7 +12,6 @@
    "manifest_version": 2,
    "name": "Orbit to Trello",
    "offline_enabled": false,
-   "options_page": "options.html",
    "page_action": {
       "default_icon": "images/icon-16.png",
       "default_title": "Orbit detected"

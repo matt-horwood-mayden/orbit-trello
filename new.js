@@ -258,6 +258,21 @@ validateData = function (popup) {
 };
 
 const updateList = function (listsList, boardId, popup) {
+    
+    popup.querySelector('div .userinfo').innerHTML = '';
+    //bind trello data
+    var user = trello.user;
+    var $userAvatar = '';
+    if (user.avatarUrl) {
+        $userAvatar = $('<img class="member-avatar">').attr('src', user.avatarUrl);
+    }
+    else {
+        $userAvatar = $('<span class="member-avatar">').text(user.username.substr(0, 1).toUpperCase());
+    }
+    $('.userinfo', popup).append($('<a class="item">').attr('href', user.url).attr('target', '_blank').append($userAvatar));
+    $('.userinfo', popup).append($('<a class="item">').attr('href', user.url).attr('target', '_blank').append(user.username));
+    $('.userinfo', popup).append($('<span class="item">|</span> <a class="item signOutButton" href="javascript:void(0)">Logout?</a>'));
+
     Trello.get('boards/' + boardId, {lists: "open", list_fields: "name"}, function (data) {
         listsList.innerHTML = ''
 
