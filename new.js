@@ -199,7 +199,7 @@ submit = function(newCard, popup) {
 
     if (data.useBacklink) {
         //var email = this.userEmail.replace('@', '\\@');
-        var txtDirect = "["+data.taskID+"](" + document.location.href + " \"Direct link to task\")";
+        var txtDirect = "["+data.taskID+"](" + document.location.origin + "/tasks/"+data.taskID+" \"Direct link to task\")";
 
         var subject = encodeURIComponent(data.title);
 
