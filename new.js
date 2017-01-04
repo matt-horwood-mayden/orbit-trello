@@ -1,6 +1,7 @@
 const allTasks = new Set()
 const seperator = '----------------------'
 var cardData;
+if(!localStorage.getItem('isAuth')) {localStorage.setItem('isAuth', 0);}
 const trello = {
     apiKey: '12cf243effef7347ef8c4f82f0fcc97b'
 }
@@ -147,53 +148,59 @@ const doStuff = function (task) {
 trello.user = trello.orgs = trello.boards = null;
 
 Trello.setKey(trello.apiKey);
-Trello.authorize({
-    type: 'redirect',
-    name: 'Orbit Trello Plugin',
-    expiration: 'never',
-    interactive: true,
-    scope: {
+if(localStorage.getItem('isAuth') == 0){
+    Trello.authorize({
+      type: 'popup',
+      name: 'Orbit Trello Plugin',
+      scope: {
         read: 'true',
         write: 'true' },
-    success: function () {
-        Trello.get('members/me', {}, function (data) {
-            data.avatarUrl = data.avatarSource === 'upload' ? 'https://trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/30.png' : null;
-            trello.user = data;
+      expiration: 'never'
+    });
+    localStorage.setItem('isAuth', 1);
+}else{
+    Trello.authorize({
+        interactive: false,
+        success: function () {
+            Trello.get('members/me', {}, function (data) {
+                data.avatarUrl = data.avatarSource === 'upload' ? 'https://trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/30.png' : null;
+                trello.user = data;
 
-            if (!data || !data.hasOwnProperty('id'))
-                return false;
+                if (!data || !data.hasOwnProperty('id'))
+                    return false;
 
-            // get user orgs
-            trello.orgs = [{id: -1, displayName: 'My Boards'}];
-            if (data.hasOwnProperty('idOrganizations') && data.idOrganizations.length > 0) {
-                Trello.get('members/me/organizations', {fields: "displayName"}, function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        trello.orgs.push(data[i]);
-                    }
-                });
-
-            }
-
-            // get boards list, including orgs
-            if (data.hasOwnProperty('idBoards') && data.idBoards.length > 0) {
-                trello.boards = null;
-                Trello.get('members/me/boards', {fields: "closed,name,idOrganization"}, function (data) {
-                    var validData = Array();
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].idOrganization === null)
-                            data[i].idOrganization = -1;
-
-                        if (data[i].closed != true) {
-                            validData.push(data[i]);
+                // get user orgs
+                trello.orgs = [{id: -1, displayName: 'My Boards'}];
+                if (data.hasOwnProperty('idOrganizations') && data.idOrganizations.length > 0) {
+                    Trello.get('members/me/organizations', {fields: "displayName"}, function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            trello.orgs.push(data[i]);
                         }
-                    }
-                    trello.boards = validData;
-                });
-            }
+                    });
 
-        });
-    }
-})
+                }
+
+                // get boards list, including orgs
+                if (data.hasOwnProperty('idBoards') && data.idBoards.length > 0) {
+                    trello.boards = null;
+                    Trello.get('members/me/boards', {fields: "closed,name,idOrganization"}, function (data) {
+                        var validData = Array();
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].idOrganization === null)
+                                data[i].idOrganization = -1;
+
+                            if (data[i].closed != true) {
+                                validData.push(data[i]);
+                            }
+                        }
+                        trello.boards = validData;
+                    });
+                }
+
+            });
+        },
+    })
+}
 
 submit = function (newCard, popup) {
     var self = this;
