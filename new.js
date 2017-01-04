@@ -1,6 +1,10 @@
 const allTasks = new Set()
 const seperator = '----------------------'
 var cardData;
+const trello = {
+    apiKey: '12cf243effef7347ef8c4f82f0fcc97b'
+}
+
 
 const observer = new window.MutationObserver(mutations => {
     const tasks = document.querySelectorAll('.taskEntry')
@@ -140,15 +144,17 @@ const doStuff = function (task) {
     }, true)
 }
 
-const trello = {
-    apiKey: '12cf243effef7347ef8c4f82f0fcc97b'
-}
-
 trello.user = trello.orgs = trello.boards = null;
 
 Trello.setKey(trello.apiKey);
 Trello.authorize({
-    interactive: false,
+    type: 'redirect',
+    name: 'Orbit Trello Plugin',
+    expiration: 'never',
+    interactive: true,
+    scope: {
+        read: 'true',
+        write: 'true' },
     success: function () {
         Trello.get('members/me', {}, function (data) {
             data.avatarUrl = data.avatarSource === 'upload' ? 'https://trello-avatars.s3.amazonaws.com/' + data.avatarHash + '/30.png' : null;
