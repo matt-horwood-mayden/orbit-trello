@@ -1,7 +1,10 @@
 {
+   "background": {
+      "scripts": [ "background.js" ]
+   },
    "content_scripts": [ {
       "css": [ "style.css" ],
-      "js": [ "lib/jquery.min.js", "lib/jquery-ui-1.10.3.custom.min.js", "lib/trello.min.js", "new.js" ],
+      "js": [ "lib/jquery.min.js", "lib/jquery-ui-1.10.3.custom.min.js", "lib/trello.min.js", "content-script.js" ],
       "matches": [ "\u003Call_urls>" ]
    } ],
    "description": "A free tool for Orbit and Trello integration, allow creating new card from tasks and easily searching back",
@@ -17,6 +20,6 @@
       "default_title": "Orbit detected"
    },
    "permissions": [ "tabs", "https://beta-crm.mayden.co.uk/*", "https://*.trello.com/*", "storage" ],
-   "version": "0.1.1",
+   "version": "0.1.2",
    "web_accessible_resources": [ "images/icon-13.jpg", "images/new_icon.gif", "lib/jquery.min.map" ]
 }
