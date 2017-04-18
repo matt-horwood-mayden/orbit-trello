@@ -20,6 +20,6 @@
       "default_title": "Orbit detected"
    },
    "permissions": [ "tabs", "https://beta-crm.mayden.co.uk/*", "https://*.trello.com/*", "storage" ],
-   "version": "0.1.2",
+   "version": "0.1.3",
    "web_accessible_resources": [ "images/icon-13.jpg", "images/new_icon.gif", "lib/jquery.min.map" ]
 }
