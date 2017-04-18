@@ -11,14 +11,14 @@
 .iH div {position: static}
 
 #gttPopup {
-    position: absolute; 
+    position: fixed; 
     max-height: none;
-    right:0;
+    right:5px;
+    bottom: 5px;
     min-width: 450px;
     max-width: 800px;
     -webkit-user-select: none; overflow: hidden; 
-    border-top:2px solid #ccc;/*#0088C3;*/
-    border-bottom:2px solid #ccc;
+    border:2px solid #ccc;/*#0088C3;*/
     background: #FEFEFE;
     padding:0;
     opacity: 0.95;
@@ -38,7 +38,7 @@
 
 }
 
-#gttPopup .inner {overflow: hidden;margin-left:3px;}
+#gttPopup .inner {overflow: hidden;}
 
 #gttButton {
     padding-left: 10px; padding-right: 10px;
@@ -60,8 +60,12 @@ ul#gttList {float:left;margin:0;padding:0;}
 #gttList li {float:left;margin:0 10px 0 0;padding:5px 10px;list-style: none;border: 1px solid #ccc;border-radius:3px;cursor:pointer;background: #F2F2F2;font-size:11px;}
 */
 #gttPopup .listrow {min-height: 31px}
-#gttList li {float:left;margin:0 10px 5px 0;padding:4px 10px;list-style: none;border-radius:3px;border: 1px solid #ccc;border-top-width:5px;cursor:pointer;background: #F2F2F2;font-size:11px;cursor: pointer;font-weight: bold;color:#666;}
-#gttList li:hover, #gttList li.active, #gttList li.active:hover {border-color:#3086B7;color:#05679E;}
+.orbit-trello-lists li, #gttList li {float:left;margin:0 10px 5px 0;padding:4px 10px;list-style: none;border-radius:3px;border: 1px solid #ccc;border-top-width:5px;cursor:pointer;background: #F2F2F2;font-size:11px;cursor: pointer;font-weight: bold;color:#666;}
+.orbit-trello-lists li:hover, .orbit-trello-lists li.active, .orbit-trello-lists li.active:hover, #gttList li:hover, #gttList li.active, #gttList li.active:hover {border-color:#3086B7;color:#05679E;}
+
+.orbit-trello-lists {
+  padding: 0;
+}
 
 #gttPopup dt {width:70px;float:left;text-align:right;padding-right:5px;}
 #gttPopup dd {display:block;margin:8px;margin-left:75px;}
