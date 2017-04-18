@@ -4,6 +4,10 @@ A free tool that provides an extra 'Add card' button on orbit UI to add current 
 
 CHANGE LOG:
 
+Version 0.1.2
+---------------
+- Start to make this work cross browser, needs more work
+
 Version 0.1.1
 ---------------
 - rewrite main plugin code
